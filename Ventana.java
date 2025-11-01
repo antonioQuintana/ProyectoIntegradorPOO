@@ -8,9 +8,13 @@ import java.awt.event.*;
  * @version (a version number or a date)
  */
 public class Ventana extends JFrame implements ActionListener{ 
-    // Se define el panel como variable de la clase (y no local de un método) para poder acceder a él          
-    // desde cualquier método de la clase (por ej., en el actionPerformed) 
+    // Además del panel, se definen cuatro variables puntero a objetos botón como variables de la clase           
+    // para poder accederlos desde cualquier método de la clase 
     JPanel miPanel = new JPanel(); 
+    private JButton bAzul; 
+    private JButton bRosa; 
+    private JButton bAmarillo; 
+    private JButton bVerde; 
     public Ventana(){ 
         this.setTitle("Ventana de Prueba");   
         this.setSize(500,400);              
@@ -19,22 +23,46 @@ public class Ventana extends JFrame implements ActionListener{
         Container miPanelContenedor = this.getContentPane();  
         miPanelContenedor.add(miPanel); 
         miPanel.setBackground(Color.red);    
-        JButton miBoton = new JButton("Azul"); 
-        // Se indica al botón quien será su gestor de eventos. Es la propia ventana (this) 
-        miBoton.addActionListener(this); 
-        // Se crea un objeto de tipo Dimensión. Este objeto contiene un par de valores enteros: alto y ancho (height y width) 
         Dimension d = new Dimension(); 
-        // Se inicializa el alto y el ancho 
         d.height = 40; 
         d.width = 100; 
-        // Se asigna al botón un tamaño preferido, empleando para ello el objeto Dimensión creado 
-        // El BorderLayout respetará el alto preferido del botón al estar éste en su campo sur. 
-        miBoton.setPreferredSize(d); 
-        miPanel.add(miBoton, BorderLayout.SOUTH); 
-    }
-    // La clase Ventana debe sobreescribir este método, ya que implementa la interfaz ActionListener 
-    // En el cuerpo de este método se coloca la acción a llevarse a cabo cuando se produce un evento sobre el botón 
+        // Se inicializa la varible bAzul 
+        bAzul = new JButton("Azul"); 
+        // Se indica la Ventana como gestor de los eventos del botón azul 
+        bAzul.addActionListener(this); 
+        bAzul.setPreferredSize(d); 
+        bVerde = new JButton("Verde"); 
+        bVerde.addActionListener(this); 
+        bVerde.setPreferredSize(d); 
+        bAmarillo = new JButton("Amarillo"); 
+        bAmarillo.addActionListener(this); 
+        bAmarillo.setPreferredSize(d); 
+        bRosa = new JButton("Rosa"); 
+        bRosa.addActionListener(this); 
+        bRosa.setPreferredSize(d); 
+        // Se añaden los cuatro botones en el norte, sur, este y oeste del panel 
+        miPanel.add(bAzul,BorderLayout.SOUTH); 
+        miPanel.add(bVerde,BorderLayout.NORTH); 
+        miPanel.add(bAmarillo,BorderLayout.EAST); 
+        miPanel.add(bRosa,BorderLayout.WEST); 
+    } 
     public void actionPerformed (ActionEvent e){ 
-        miPanel.setBackground(Color.blue); 
-    }
-}
+        // Se utiliza información encapsulado en el evento de tipo ActionEvent para saber que botón se pulsó.  
+        // En la variable fuente de tipo Object  se almacena la referencia al objeto fuente de este evento,  
+        // es decir la referencia al botón que se pulsó. 
+        Object fuente = e.getSource(); 
+        //Si la referencia es igual a la puntero que apunta la botón bAzul es que fue éste el que se pulsó 
+        if (fuente == bAzul){ 
+            miPanel.setBackground(Color.blue); 
+        } 
+        if (fuente == bVerde){ 
+            miPanel.setBackground(Color.green); 
+        } 
+        if (fuente == bAmarillo){ 
+            miPanel.setBackground(Color.yellow); 
+        } 
+        if (fuente == bRosa){ 
+            miPanel.setBackground(Color.pink); 
+        } 
+    } 
+} 
