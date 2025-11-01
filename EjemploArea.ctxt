@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=EjemploArea
+comment1.params=
+comment1.target=EjemploArea()
+comment2.params=evt
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+numComments=3

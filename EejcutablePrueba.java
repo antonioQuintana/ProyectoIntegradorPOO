@@ -10,5 +10,7 @@ public class EejcutablePrueba
         
         EjemploTexto tex = new EjemploTexto();
         tex.show();
+        EjemploArea texArea = new EjemploArea();
+        texArea.show();
     }
 }
