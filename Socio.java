@@ -84,8 +84,9 @@ public abstract class Socio
         Calendar fechaHoy = Calendar.getInstance();
         
         for(Prestamo unPre : this.getPrestamos()){
-            if(unPre.vencido(fechaHoy)) flag = false;
+            if(unPre.getFechaDevolucion() == null && unPre.vencido(fechaHoy)) flag = false;
         }
+        //Si la fecha de devolucion es distinta de null no interesa porque ya delvolvió, sea con atraso o no.
         
         return flag;
     }

@@ -31,8 +31,11 @@ public class Docente extends Socio{
     //otros metodos -----------------------------------------
     public boolean esResponsable(){
         boolean flag = true;
+        if( ! this.puedePedir() ) return false;
+        
         for(Prestamo unPre : this.getPrestamos()){
-            if (unPre.vencido(unPre.getFechaDevolucion())) flag = false;
+            if( unPre.getFechaDevolucion() != null && unPre.vencido(unPre.getFechaDevolucion())) flag = false;
+            //cambia la bandera si entregó algun libro luego del vencimiento.
         }
         return flag;
     }

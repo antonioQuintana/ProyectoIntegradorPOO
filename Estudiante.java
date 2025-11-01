@@ -35,7 +35,7 @@ public class Estudiante extends Socio
         if(!super.puedePedir()) return false;
         
         for(Prestamo unPre : this.getPrestamos()){
-            if(unPre.getFechaDevolucion().compareTo(new GregorianCalendar(0,0,0)) == 0) librosSinDevolver++;
+            if(unPre.getFechaDevolucion() == null) librosSinDevolver++;
         }
         if(librosSinDevolver <= 3){
             return true;
