@@ -114,14 +114,14 @@ public class Biblioteca{
      * @return no retorna nada
      */
     public void nuevoSocioEstudiante(int p_dniSocio , String p_nombre, String p_carrera){
-        this.getArraySocios().add(new Estudiante(p_dniSocio, p_nombre, p_carrera));  
+        this.getArraySocios().add(new Estudiante(p_dniSocio, p_nombre, 20, p_carrera));  
     }
     
     /**Metodo para agregar un socio de tipo docente a la coleccion
      * @param p_dnoSocio dni del socio a agregar
      */
     public void nuevoSocioDocente(int p_dniSocio, String p_nombre, String p_area){
-        this.getArraySocios().add(new Docente(p_dniSocio, p_nombre, p_area));
+        this.getArraySocios().add(new Docente(p_dniSocio, p_nombre, 5, p_area));
     }
     
     /**
@@ -134,10 +134,12 @@ public class Biblioteca{
     public boolean prestarLibro(Calendar p_fechaRetiro, Socio p_socio, Libro p_libro){
         if(p_libro.prestado()){//verificar si el libro ya esta prestado
             System.out.println("\nEl libro ya esta prestado, espera a que lo devuelvan para pedirlo nuevamente.");
+            return false;
         }else{
-            Prestamo prestamo = new Prestamo(p_fechaRetiro, p_socio, p_libro);//crea un prestamo y luego lo asocia al libro y al socio
+            Prestamo prestamo = new Prestamo(p_fechaRetiro, p_libro, p_socio);//crea un prestamo y luego lo asocia al libro y al socio
             p_libro.agregarPrestamo(prestamo);
             p_socio.agregarPrestamo(prestamo);
+            return true;
         }
     }
     
@@ -151,7 +153,7 @@ public class Biblioteca{
             Prestamo ultimo = p_libro.ultimoPrestamo();
             ultimo.registrarFechaDevolucion(Calendar.getInstance());//marca la fecha acutal como devolucion
         }else{//si no esta prestado lanza LibroNoPrestadoException
-            throw new LibroNoPrestadoexception("\nEl libro " + p_libro.getTitulo() + " no se puede devolver porqueya se encuentra en la biblioteca.");
+            throw new LibroNoPrestadoException("\nEl libro " + p_libro.getTitulo() + " no se puede devolver porqueya se encuentra en la biblioteca.");
         }
     }
     
@@ -195,8 +197,8 @@ public class Biblioteca{
     public ArrayList <Docente> docentesResponsables(){
         ArrayList <Docente> responsables = new ArrayList <>();
         for(Socio s : this.getArraySocios()){
-            if("Docente".equals(s.soyDeLaClase()) && s.esResponsable()){
-                responsables.add((Docente)s);
+            if(s.soyDeLaClase().equalsIgnoreCase("docente")){
+                if (((Docente)s).esResponsable() ) responsables.add((Docente)s);                
             }
         }
         return responsables;
@@ -207,7 +209,7 @@ public class Biblioteca{
      * @param p_libro libro que se desea buscar
      * @return retorna un String
     */
-    public String quienTieneElLibro(Libro p_libro){
+    public String quienTieneElLibro(Libro p_libro)throws{
         if(p_libro.prestado()){//si esta prestado, devuelve el nombre del socio
             return p_libro.ultimoPrestamo().getSocio().getNombre();
         }else{//si no esta prestado, lanza exception
@@ -250,6 +252,7 @@ public class Biblioteca{
                 System.out.println("\nEl socio " + s + " no esta registrado.");
             }
         }
+        return null;
     }
 
     /**
@@ -275,11 +278,16 @@ public class Biblioteca{
     public String listaDeDocentesResponsables(){
         //docentesResponsables();
         //responsables.getDniSocio();
-        for(Socio s : this.getArraySocios()){
+        /*for(Socio s : this.getArraySocios()){
             if("Docente".equals(s.soyDeLaClase()) && s.esResponsable()){
-                return "*D.N.I.: " + s.toString() + " || Libros Prestados: " + s.cantLibrosPrestados();
+                return "\n*D.N.I.: " + s.toString() + " || Libros Prestados: " + s.cantLibrosPrestados();
             }
+        }*/
+        String leyenda = "";
+        for(Docente doc : this.docentesResponsables()){
+            leyenda += doc.toString();
         }
+        return leyenda;
     }
 
     /**

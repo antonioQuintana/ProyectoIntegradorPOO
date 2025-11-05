@@ -76,7 +76,7 @@ public abstract class Socio
         String mensaje = ("D.N.I.: "+ this.getDniSocio()+ 
                            " || " + this.getNombre()+
                            " ("+ this.soyDeLaClase() + ") || Libros Prestados: "
-                           + this.cantLibrosPrestados());
+                           + this.cantLibrosPrestados()+ "\n");
         return mensaje;
     }
     public boolean puedePedir(){
